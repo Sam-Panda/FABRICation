@@ -17,6 +17,9 @@ import nest_asyncio
 nest_asyncio.apply()
 load_dotenv()
 
+# create .env file and add the following variables
+# EVENT_STREAM_CONN_STR = <event stream connection string>
+# EVENT_STREAM_APP_NAME = <event stream app name>
 
 CONNECTION_STR = os.environ['EVENT_STREAM_CONN_STR']
 EVENTHUB_NAME = os.environ['EVENT_STREAM_APP_NAME']
@@ -30,6 +33,8 @@ async def get_flight_data(epoch_start_time, epoch_end_time):
     future1= loop.run_in_executor(None, requests.get, f'https://opensky-network.org/api/flights/all?&begin={epoch_start_time}&end={epoch_end_time}')
     response = await future1
     data = response.json()
+    # print the length of the response 
+    print(f"length of the response: {len(data)}")
     return data
 
 async def run(data):
@@ -92,3 +97,6 @@ if __name__ == '__main__':
     epoch_end_time = int(time.time())
         
         # example_eventhub_async_producer_send_and_close()
+
+
+

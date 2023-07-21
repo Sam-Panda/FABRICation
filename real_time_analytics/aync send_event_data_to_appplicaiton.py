@@ -17,6 +17,9 @@ import nest_asyncio
 nest_asyncio.apply()
 load_dotenv()
 
+# create .env file and add the following variables
+# EVENT_STREAM_CONN_STR = <event stream connection string>
+# EVENT_STREAM_APP_NAME = <event stream app name>
 
 CONNECTION_STR = os.environ['EVENT_STREAM_CONN_STR']
 EVENTHUB_NAME = os.environ['EVENT_STREAM_APP_NAME']
