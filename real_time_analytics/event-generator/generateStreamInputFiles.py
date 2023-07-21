@@ -19,6 +19,8 @@ def create_random_names():
 
 def create_file():
     load_dotenv()
+    # create .env file and add the following variables
+    # blob_connect_str = <blob connection string>
     connect_str = os.environ['blob_connect_str']
     blob_service_client = BlobServiceClient.from_connection_string(connect_str)
     container_name = "streamingdata"
