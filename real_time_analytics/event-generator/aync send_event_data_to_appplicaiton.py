@@ -34,7 +34,7 @@ async def run():
 
     event_hub_connection_str = CONNECTION_STR
     eventhub_name = EVENTHUB_NAME
-    number_of_events=11 # Assign default value
+    number_of_events=10 # Assign default value
     number_of_devices=5
     producer = EventHubProducerClient.from_connection_string(
         conn_str=event_hub_connection_str,
@@ -49,8 +49,9 @@ async def run():
         # Create a dummy reading.
         for x in range(0, number_of_events):
             reading = {'id': dev, 'timestamp': str(datetime.datetime.utcnow()), 'uv': random.random(), 'temperature': random.randint(70, 100), 'humidity': random.randint(70, 100)}
+            reading_for_print = {'epoch_time': time.time(),'id': dev, 'timestamp': str(datetime.datetime.utcnow()), 'uv': random.random(), 'temperature': random.randint(70, 100), 'humidity': random.randint(70, 100)}
             s = json.dumps(reading) # Convert the reading into a JSON string.
-            print(s)
+            print(reading_for_print)
             # while can_add:
             # try:
             event_data_batch.add(EventData(s)) # Add event data to the batch.

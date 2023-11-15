@@ -1,0 +1,45 @@
+{
+    "client_id": "b70360ab-9cf1-472d-b047-a7535c20bd27",
+    "client_secret": "uy48Q~WSmL3.QDfrt..9Jmpz6xGe74SChNIDxdhV",
+    "tenant_id": "98c45f19-7cac-4002-8702-97d943a5ccb4",
+    "deployment_pipeline" :{
+        "pipelineDisplayName" : "pbi-demo-pipeline",
+        "pipelineDescritionName" : "pipeline for moving pbi reports from dev to prod",
+        "adminusersupn" : "sam@biatipdfmsitscus.onmicrosoft.com",
+        "dev_stage" : {
+            "workspaceName" : "dev-workspace"
+        },
+        "test_stage" : {
+            "workspaceName" : "test-workspace-demo"
+        },
+        "prod_stage" : {
+            "workspaceName" : "prod-workspace-demo"
+        },
+        "dev_to_test_artifacts_to_move" : {
+            "reports":[
+                "FoodSales"
+            ],
+            "datasets":[
+                "FoodSales",
+                ""
+            ],
+            "dashboards":[
+                "FoodSales.pbix",
+                ""
+            ]
+        },
+        "test_to_prod_artifacts_to_move" : {
+            "reports":[
+                "FoodSales"
+            ],
+            "datasets":[
+                "FoodSales",
+                ""
+            ],
+            "dashboards":[
+                
+            ]
+        }
+    }
+
+}

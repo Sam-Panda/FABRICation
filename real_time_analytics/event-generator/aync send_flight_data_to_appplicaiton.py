@@ -24,11 +24,12 @@ load_dotenv()
 CONNECTION_STR = os.environ['EVENT_STREAM_CONN_STR']
 EVENTHUB_NAME = os.environ['EVENT_STREAM_APP_NAME']
 
-
+print(EVENTHUB_NAME)
 
 async def get_flight_data(epoch_start_time, epoch_end_time):
     loop = asyncio.get_event_loop()
     import requests
+    print(f'https://opensky-network.org/api/flights/all?&begin={epoch_start_time}&end={epoch_end_time}')
     # getting the response for every 1 minute
     future1= loop.run_in_executor(None, requests.get, f'https://opensky-network.org/api/flights/all?&begin={epoch_start_time}&end={epoch_end_time}')
     response = await future1
@@ -89,7 +90,7 @@ if __name__ == '__main__':
     # while True:
     print(f"epoch_start_time: {epoch_start_time}, epoch_end_time: {epoch_end_time}")
     data = loop.run_until_complete(get_flight_data(epoch_start_time, epoch_end_time))
-    # print(data)
+    print(data)
     loop.run_until_complete(run(data))
     # sleep the code for one minute
     #time.sleep(interval)

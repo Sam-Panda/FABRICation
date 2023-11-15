@@ -10,15 +10,18 @@ import random
 
 # declare some variables here 
 number_of_files_to_be_generated = 10
-number_of_seconds_to_be_waited = 5
+number_of_seconds_to_be_waited = 1
 
 def create_random_names():
+    # create random names
     name = names.get_full_name()
     return name
 
 
 def create_file():
-    load_dotenv()
+    # load the .env file
+    load_dotenv()  
+    
     # create .env file and add the following variables
     # blob_connect_str = <blob connection string>
     connect_str = os.environ['blob_connect_str']
@@ -43,12 +46,14 @@ def create_file():
         country = random.choice(['USA', 'UK', 'Australia', 'Canada', 'India', "dummy"])
         data.append([name, age, country])
 
+    # Write the data to a temporary file
     file_name = 'temp_random.csv'
     with open(file_name, mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(headers)
         writer.writerows(data)
 
+    # Upload the data to blob storage
     with open(file_name, "rb") as data:
         blob_client.upload_blob(data)
         print(f"files_uploaded - {blob_client.url}")
@@ -60,4 +65,6 @@ def __init__():
 
 #start the __init__ function
 __init__()
+
+
 
