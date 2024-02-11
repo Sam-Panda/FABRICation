@@ -1,5 +1,6 @@
 ﻿# read config.json file
 $config = Get-Content -Path "pbi_cicd\scripts\config.json" | ConvertFrom-Json
+$cred = Get-Content -Path "pbi_cicd\scripts\cred.json" | ConvertFrom-Json
 
 $CLIENT_ID=$config.CLIENT_ID
 $CLIENT_SECRET=$config.CLIENT_SECRET

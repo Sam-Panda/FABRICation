@@ -2,3 +2,5 @@ real_time_analytics/__temp.ipynb
 
 .env
 real_time_analytics/temp_random.csv
+pbi_cicd/scripts/cred.json
+sample-fabric-streaming/emulator/emulator.ini
