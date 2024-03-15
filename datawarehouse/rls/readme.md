@@ -5,7 +5,7 @@
 Row-level security (RLS) in Fabric Warehouse and SQL analytics endpoint allows you to control access to rows in a database table based on user roles and predicates. For example, you can ensure that users can only access the rows in a table that are assigned to their sales region. RLS is a great way to implement security in your datawarehouse.
 In this document, we will explain how to implement RLS in your datawarehouse using the mapping table.
 
-![alt text](https://github.com/Sam-Panda/FABRICation/tree/main/datawarehouse/rls/.media/image.png)
+![alt text](https://github.com/Sam-Panda/FABRICation/main/datawarehouse/rls/.media/image.png)
 
 ## Setup
 
@@ -153,7 +153,7 @@ After setting up the RLS in your datawarehouse, you can now test the RLS by runn
 ### Testing the RLS when User is executing the query including admin, and normal user. 
 
 Here is the mapping table:
-![alt text](https://github.com/Sam-Panda/FABRICation/tree/main/datawarehouse/rls/.media/image-3.png)
+![alt text](https://github.com/Sam-Panda/FABRICation/main/datawarehouse/rls/.media/image-3.png)
 
 ``` sql
 
@@ -162,6 +162,6 @@ select USER_NAME(), * from sales.SalesByCountry
 ```
 
 when user: admin is exceuting the query:
-![alt text](https://github.com/Sam-Panda/FABRICation/tree/main/datawarehouse/rls/.media/image-1.png)
+![alt text](https://github.com/Sam-Panda/FABRICation/main/datawarehouse/rls/.media/image-1.png)
 when Alex is executing the query:
-![alt text](https://github.com/Sam-Panda/FABRICation/tree/main/datawarehouse/rls/.media/image-2.png)
+![alt text](https://github.com/Sam-Panda/FABRICation/main/datawarehouse/rls/.media/image-2.png)
