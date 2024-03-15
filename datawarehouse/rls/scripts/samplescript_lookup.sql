@@ -40,10 +40,10 @@ select * from sales.SalesRepCountryMapping
 -- Insert sample data
 INSERT INTO sales.SalesRepCountryMapping (SalesRep, SalesEmailId, CountryCode)
 VALUES
-    ('LeeG', 'LeeG@M365x64901087.OnMicrosoft.com', 'US'),
-    ('AlexW', 'AlexW@M365x64901087.OnMicrosoft.com', 'CA')
+    ('LeeG', 'LeeG@CONTOSO.OnMicrosoft.com', 'US'),
+    ('AlexW', 'AlexW@CONTOSO.OnMicrosoft.com', 'CA')
 
--- Creating a function for the SalesRep evaluation
+-- Creating a function for the SalesByCountry evaluation
 CREATE FUNCTION Security.fn_security_predicateSales_by_country_code(@country_code AS varchar(50))
     RETURNS TABLE
 WITH SCHEMABINDING
@@ -106,3 +106,13 @@ ADD FILTER PREDICATE Security.fn_security_predicate_SalesTargetData_by_country(C
 ON sales.salesTargetData
 WITH (STATE = ON);
 GO
+
+-- provide access to the Admin
+
+INSERT INTO sales.SalesRepCountryMapping (SalesRep, SalesEmailId, CountryCode)
+VALUES
+    ('ADMIN', 'admin@CONTOSO.onmicrosoft.com', 'UK'),
+    ('ADMIN', 'admin@CONTOSO.onmicrosoft.com', 'US'),
+    ('ADMIN', 'admin@CONTOSO.onmicrosoft.com', 'CA'),
+    ('ADMIN', 'admin@CONTOSO.onmicrosoft.com', 'IN')
+
