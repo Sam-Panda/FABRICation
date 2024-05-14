@@ -1,4 +1,4 @@
-# Deployment Guideline for Power BI Directlake Model
+# Deployment Guideline for Power BI Directlake Model in Microsoft Fabric
 
 ## Background
 At the time of writing this blog, Power Bi directlake mode is not supported in the Deployment Pipeline. Here are the [current supported items](https://learn.microsoft.com/en-us/fabric/cicd/deployment-pipelines/intro-to-deployment-pipelines#supported-items) for Deployment Pipeline. This blog provides a guideline to deploy the Power BI Directlake model manually using the Tabular Editor.
@@ -27,6 +27,37 @@ Outline the step-by-step process for deploying the Power BI Directlake model. In
 
     ![alt text](https://github.com/Sam-Panda/FABRICation/blob/main/fabric-ci-cd/DirectlakeDeployment/.images/DeploymentPipeline_image.png)
 
+    Here is the notebook script for creating the table `salesbycountry` in the Lakehouse `LH1`.
+
+    ```python
+
+    %%sql
+    CREATE TABLE SalesByCountry (
+        CountryCode CHAR(2),
+        SalesDate DATE,
+        ProductID INT,
+        QuantitySold INT,
+        Revenue DECIMAL(10, 2)
+    )USING DELTA ;
+
+
+    ```
+    ```python
+    %%sql
+    INSERT INTO SalesByCountry (CountryCode, SalesDate, ProductID, QuantitySold, Revenue)
+    VALUES
+        ('US', '2024-02-27', 101, 50, 2500.00),
+        ('US', '2024-02-27', 102, 30, 1800.00),
+        ('CA', '2024-02-27', 101, 20, 1000.00),
+        ('CA', '2024-02-27', 103, 15, 750.00),
+        ('UK', '2024-02-27', 102, 25, 1500.00),
+        ('UK', '2024-02-27', 104, 10, 500.00),
+        ('DE', '2024-02-27', 101, 40, 2000.00),
+        ('DE', '2024-02-27', 103, 18, 900.00),
+        ('FR', '2024-02-27', 102, 22, 1320.00),
+        ('FR', '2024-02-27', 105, 12, 720.00);
+
+    ```
 2. Step 2: Load the Development Model in the Tabular Editor
     - (1): provide the connection string of the development workspace in the Tabular Editor. Connection String can be found from `Workspace Settings -> Premium -> Workspace Connection`.
 
@@ -58,24 +89,24 @@ Outline the step-by-step process for deploying the Power BI Directlake model. In
 
     ![alt text](https://github.com/Sam-Panda/FABRICation/blob/main/fabric-ci-cd/DirectlakeDeployment/.images/Production_connection_string_lakehouse_image.png)
 
->     The connection string is not dependent on the Lakehouse name, it is dependent on the GUID of the Lakehouse SQL Endpoint. So, even if we have the different Lakehouse name in the production environment, we can still deploy the semantic model in the production workspace by providing the valid database GUID.
+    The connection string is not dependent on the Lakehouse name, it is dependent on the GUID of the Lakehouse SQL Endpoint. So, even if we have the different Lakehouse name in the production environment, we can still deploy the semantic model in the production workspace by providing the valid database GUID.
 
-Even if we have a different table in the development Lakehouse and production Lakehouse, we can still do the deployment by mapping the correct source table from the semantic model table partition.  In the below screenshot, we have mapped the source table `salesbycountry` from production Lakehouse.
+    Even if we have a different table in the development Lakehouse and production Lakehouse, we can still do the deployment by mapping the correct source table from the semantic model table partition.  In the below screenshot, we have mapped the source table `salesbycountry` from production Lakehouse.
 
-![alt text](https://github.com/Sam-Panda/FABRICation/blob/main/fabric-ci-cd/DirectlakeDeployment/.images/table_selection_image.png)
+    ![alt text](https://github.com/Sam-Panda/FABRICation/blob/main/fabric-ci-cd/DirectlakeDeployment/.images/table_selection_image.png)
 
 4. Step 4: Deploy the semantic model to the production workspace.
 
-Once the connection string is changed to the production Lakehouse, we can deploy the semantic model to the production workspace. We can do this by clicking on the `Deploy` button in the Tabular Editor. In the Destination Server setting, we need to provide the connection details of the Production workspace. We can give any name to the semantic model while deploying, however keeping the same name as the development workspace is preferred.
+    Once the connection string is changed to the production Lakehouse, we can deploy the semantic model to the production workspace. We can do this by clicking on the `Deploy` button in the Tabular Editor. In the Destination Server setting, we need to provide the connection details of the Production workspace. We can give any name to the semantic model while deploying, however keeping the same name as the development workspace is preferred.
 
-![alt text](https://github.com/Sam-Panda/FABRICation/blob/main/fabric-ci-cd/DirectlakeDeployment/.images/Model_production_deployment_image.png)
+    ![alt text](https://github.com/Sam-Panda/FABRICation/blob/main/fabric-ci-cd/DirectlakeDeployment/.images/Model_production_deployment_image.png)
 
 5. Step 5: Validate the deployment in the production workspace.
 
-If we go the production workspace, we can see the semantic model is deployed successfully. We can validate the deployment by checking the tables and measures in the semantic model.
+    If we go the production workspace, we can see the semantic model is deployed successfully. We can validate the deployment by checking the tables and measures in the semantic model.
 
-![alt text](https://github.com/Sam-Panda/FABRICation/blob/main/fabric-ci-cd/DirectlakeDeployment/.images/Deployment_successful_image.png)
+    ![alt text](https://github.com/Sam-Panda/FABRICation/blob/main/fabric-ci-cd/DirectlakeDeployment/.images/Deployment_successful_image.png)
 
 
-Hope this helps! 
+    Hope this helps! 
 
