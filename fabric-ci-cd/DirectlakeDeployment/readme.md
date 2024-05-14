@@ -16,7 +16,6 @@ This blog post provides a step-by-step guide to deploy the Power BI Directlake m
 
 
 ## Deployment Steps
-Outline the step-by-step process for deploying the Power BI Directlake model. Include any configuration or setup steps that need to be performed.
 
 1. Step 1: Move the lakehouse and notebook artifacts using the deployment pipeline from the development workspace to the production workspace.
 
