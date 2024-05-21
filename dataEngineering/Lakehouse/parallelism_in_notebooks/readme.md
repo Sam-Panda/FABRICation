@@ -8,7 +8,9 @@ Parallelism is a fundamental concept in distributed computing that allows multip
 
 ## use case
 
-We have [TpCH data ](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) in Azure Data Lake Storage Gen2. Each year has 12 files and we would like to process several years of data in parallel. We would like to speed up the data loading process. 
+We have [TPCH](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) data in Azure Data Lake Storage Gen2, with each year comprising 12 files. To expedite the data loading process, we aim to process multiple years of data concurrently without processing all files together, which would consume extensive resources given the dataframe's size of several hundred GBs. Our goal is to execute this operation in batches.
+
+![alt text](https://github.com/Sam-Panda/FABRICation/blob/main/dataEngineering/Lakehouse/parallelism_in_notebooks/.images/InputFiles.png)
 
 
 ## Parallelism in Fabric Spark Notebooks
