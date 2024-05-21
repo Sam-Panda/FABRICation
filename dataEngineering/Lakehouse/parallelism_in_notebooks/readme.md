@@ -13,9 +13,10 @@ We have [TPCH](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) dat
 ![alt text](https://github.com/Sam-Panda/FABRICation/blob/main/dataEngineering/Lakehouse/parallelism_in_notebooks/.images/InputFiles.png)
 
 
-## Parallelism in Fabric Spark Notebooks
+## Solution: Parallelism in Fabric Spark Notebooks
 
-In the Microsoft Fabric Data Engineering Experience, Spark notebooks provide a powerful environment for developing and executing data processing workflows. These notebooks leverage the underlying Spark engine to distribute and parallelize data processing tasks across multiple nodes in a cluster.
+Within the Microsoft Fabric Data Engineering Experience, Spark notebooks offer a robust platform for creating and running data processing workflows. These notebooks utilize the Spark engine's capabilities to distribute and parallelize tasks across several nodes in a cluster. 
+For the mentioned use case, a master notebook will read the number of input files and organize them into subsets depending on the number of jobs we would like to trigger, which will then be processed by child notebooks. Depending on the desired number of jobs or parallel executions, an equivalent number of child notebook instances will run concurrently.
 
 
 ## Compute configurations
@@ -24,7 +25,7 @@ To efficiently process multiple jobs within a Spark session, it is essential to 
 
 Here are few consideration for compute configurations:
 
-1) We are going to use F64 Capacity Unity (CU) in Fabric. 1 CU = 2 spark vCores. 
+1) We are going to use F64 Capacity Unity (CU) in Fabric. 1 CU = 2 spark vCores. So, in total we will get for the job maximum 128 VCores.
 2) Fabric capacities are enabled with bursting which allows you to consume extra compute cores beyond what have been purchased to speed the execution of a workload. For Spark workloads bursting allows users to submit jobs with a total of 3X the Spark VCores purchased. Here is more detail about [bursting](https://learn.microsoft.com/en-us/fabric/data-engineering/spark-job-concurrency-and-queueing#concurrency-throttling-and-queueing)
 3) Example calculation: `F64 SKU offers 128 Spark VCores`. The burst factor applied for a `F64 SKU is 3`, which gives a total of `384 Spark Vcores`. The _burst factor is only applied to help with concurrency and does not increase the max cores available for a single Spark job_. That means a single Notebook or Spark Job Definition or Lakehouse Job can use a pool configuration of max 128 vCores and 3 jobs with the same configuration can be run concurrently. If notebooks are using a smaller compute configuration, they can be run concurrently till the max utilization reaches the 384 Spark Vcore limit.
 4) We can set the number of executors, the amount of memory allocated to each executor, and the number of cores per executor in the Spark configuration. We can do this by creating the [environment in Fabric ](https://learn.microsoft.com/en-us/fabric/data-engineering/workspace-admin-settings#environment)and attach the Fabric environment to the master notebook, so that master notebook can use the spark session configurations and run the parallel notebook execution with maximum available resources.
