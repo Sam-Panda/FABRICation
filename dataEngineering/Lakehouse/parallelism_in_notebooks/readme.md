@@ -1,6 +1,10 @@
 # Parallelism in Spark Notebook Execution in Microsoft Fabric
 
 This blog post discusses the concept of parallelism in Spark notebook execution within the Microsoft Fabric Data Engineering Experience. It explores how parallelism can improve the performance and scalability of data processing tasks in a distributed computing environment.
+The following two utilities are commonly utilized to initiate parallel notebook executions.
+
+* mssparkutils.notebook.run()
+* mssparkutils.notebook.runMultiple()
 
 ## Introduction
 
@@ -82,3 +86,48 @@ Child notebook performs the following steps:
 Here is how we can observe the triggering of different instances of child notebooks.
 
 ![alt text](https://github.com/Sam-Panda/FABRICation/blob/main/dataEngineering/Lakehouse/parallelism_in_notebooks/.images/child_notebook_Execution_image.png)
+
+## Method — 2 : Using the mssparkutils.notebook.runMultiple() utility
+
+We have a utility called runMultiple() that enables the parallel execution of notebooks by specifying dependencies and several other parameters. And we can specify the execution order, parameters and dependencies in the JSON. More details [here](https://learn.microsoft.com/en-us/fabric/data-engineering/microsoft-spark-utilities#reference-run-multiple-notebooks-in-parallel).
+
+In our use case, we do not have any dependencies between the notebooks, so we will run all the notebooks in parallel. The first step is to create the JSON.
+
+```python
+DAG={}
+activities = []
+for i in range(0, no_of_parallel_jobs):
+    activity = {"name": f"childNotebookcall-{i}", "timeoutPerCellInSeconds": 90000 , "path": "/child_notebook_parallelism", "args": {"files_list_part": f"{files_list_part[i]}", "output_path" : f"{output_path}/temp/batch{i}"}}
+    activities.append(activity)
+DAG["activities"]= activities
+```
+
+Here is the JSON that got created for the job:
+
+```JSON
+{'activities': [{'name': 'childNotebookcall-0',
+   'timeoutPerCellInSeconds': 90000,
+   'path': '/child_notebook_parallelism',
+   'args': {'files_list_part': "['abfss://redacted@msit-onelake.dfs.fabric.microsoft.com/redacted/Files/nycyellotaxi-backup/yellow_tripdata_2022-01.parquet', 'abfss://redacted@msit-onelake.dfs.fabric.microsoft.com/redacted/Files/nycyellotaxi-backup/yellow_tripdata_2022-02.parquet']",
+    'output_path': 'Files/parquet-to-delta-table-fabric/temp/batch0'}},
+  {'name': 'childNotebookcall-1',
+   'timeoutPerCellInSeconds': 90000,
+   'path': '/child_notebook_parallelism',
+   'args': {'files_list_part': "['abfss://redacted@msit-onelake.dfs.fabric.microsoft.com/redacted/Files/nycyellotaxi-backup/yellow_tripdata_2022-03.parquet', 'abfss://redacted@msit-onelake.dfs.fabric.microsoft.com/redacted/Files/nycyellotaxi-backup/yellow_tripdata_2022-04.parquet']",
+    'output_path': 'Files/parquet-to-delta-table-fabric/temp/batch1'}},
+  {'name': 'childNotebookcall-2',
+   'timeoutPerCellInSeconds': 90000,
+   'path': '/child_notebook_parallelism',
+   'args': {'files_list_part': "['abfss://redacted@msit-onelake.dfs.fabric.microsoft.com/redacted/Files/nycyellotaxi-backup/yellow_tripdata_2022-05.parquet', 'abfss://redacted@msit-onelake.dfs.fabric.microsoft.com/redacted/Files/nycyellotaxi-backup/yellow_tripdata_2022-06.parquet']",
+    'output_path': 'Files/parquet-to-delta-table-fabric/temp/batch2'}},
+
+```
+
+‘timeoutPerCellInSeconds’: The timeout value for each cell execution. If you are loading any large data, please put a large number to avoid the timeout.
+
+```python
+mssparkutils.notebook.runMultiple(DAG, {"displayDAGViaGraphviz": False})
+```
+Here is the result post execution:
+
+![alt text](https://github.com/Sam-Panda/FABRICation/blob/main/dataEngineering/Lakehouse/parallelism_in_notebooks/.images/image.png)
