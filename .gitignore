@@ -4,3 +4,4 @@ real_time_analytics/__temp.ipynb
 real_time_analytics/temp_random.csv
 pbi_cicd/scripts/cred.json
 sample-fabric-streaming/emulator/emulator.ini
+fabric-security-101/infra/deployment.cli

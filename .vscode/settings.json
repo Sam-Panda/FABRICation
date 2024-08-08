@@ -1,0 +1,8 @@
+{
+    "azureFunctions.deploySubpath": "real_time_analytics\\AzureFunctionIntegration\\sample",
+    "azureFunctions.scmDoBuildDuringDeployment": true,
+    "azureFunctions.pythonVenv": ".venv",
+    "azureFunctions.projectLanguage": "Python",
+    "azureFunctions.projectRuntime": "~4",
+    "debug.internalConsoleOptions": "neverOpen"
+}
