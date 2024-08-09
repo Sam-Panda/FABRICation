@@ -18,7 +18,7 @@ identity -> Overview -> Properties -> Manage Conditional Access -> Multifactor a
 2. Create a service principal for delegation and give API permission as it is required. I have given permission only for the workspace. If you would like to give more delegated permission, choose it from the Add a Permission -> search for Power BI Service -> delegated Permissions.
 
 
-![alt text](./images/image-1.png)
+![alt text](./images/image2.png)
 
 3. Also enable Allow Public client flows in the Authentication -> Advanced settings -> Enable the Allow public client flows.
 
@@ -56,3 +56,7 @@ pm.globals.set("personal_access_token", jsonResponse.access_token);
 
 
 ![alt text](./images/image5.png)
+
+
+
+Microsoft Fabric Data Pipeline is evolving and new features are getting added almost every week. Whereas Azure data Factory is the data integration tool is in the market for couple of years. Incase if we want to trigger a data pipeline in Fabric from an existing data factory pipeline, we can use the Web activity in the Azure Data Factory pipeline to trigger the Fabric Data Pipeline.
