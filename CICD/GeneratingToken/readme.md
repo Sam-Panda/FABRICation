@@ -25,3 +25,34 @@ identity -> Overview -> Properties -> Manage Conditional Access -> Multifactor a
 ![alt text](./images/image-2.png)
 
 4. We do not need the client secret for this script. So, do not create the client secret.
+
+
+## Creating the user access token from Postman ( Using Rest API)
+
+We are going to use the same credentials as before:
+
+### Step 1: Create a Post Method in the Postman to generate the access token:
+
+**Endpoint**: `https://login.microsoftonline.com/{{contoso_tenant_id}}/oauth2/v2.0/token`
+
+**Content-Type**: `application/x-www-form-urlencoded`
+
+
+![alt text](./images/image3.png)
+
+Assign the access token into the variable from the Script section.
+
+```javascript
+const jsonResponse = pm.response.json()
+pm.globals.set("personal_access_token", jsonResponse.access_token);
+```
+
+![alt text](./images/image4.png)
+
+### Step 2: Call the Get or Post Method of any Fabric API by using the generated token.
+
+**Endpoint**: `https://api.fabric.microsoft.com/v1/workspaces/{{wortkspace_id}}/items/<fabric_data_pipeline_id>/jobs/instances?jobType=Pipeline`
+
+
+
+![alt text](./images/image5.png)
